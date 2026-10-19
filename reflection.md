@@ -21,6 +21,8 @@ These classes work together to help pet owners manage their pets' daily routines
 - Did your design change during implementation?
 - If yes, describe at least one change and why you made it.
 
+During implementation, I used Python's snake_case naming convention instead of the camelCase names in my original UML diagram. I also made scheduled start and end times optional so users can create tasks before scheduling them. These changes made the Python code easier to work with while keeping the original design.
+
 ---
 
 ## 2. Scheduling Logic and Tradeoffs

@@ -1,40 +1,15 @@
-# AI Interactions Log
 
-> **Stretch features only.** Only fill in the sections that apply to stretch features you attempted. If you did not attempt a stretch feature, leave its section blank or delete it. This file is not required for the core project.
+# AI Interactions
 
----
+This project used AI assistance for UML design, Python class scaffolding, scheduling implementation, pytest coverage, and Streamlit integration.
 
-## Agent Workflow (SF7)
+## Example prompts
 
-> Document your experience using an AI agent (e.g., Cursor Agent, Claude, Copilot) to make multi-step changes autonomously.
+- Create a beginner-friendly Mermaid class diagram for Owner, Pet, Task, and Scheduler.
+- Implement a priority-first daily scheduling algorithm that skips tasks that do not fit and explains why.
+- Add tests for sorting, recurring tasks, overlap detection, and invalid durations.
+- Fix a Streamlit indentation error without changing the core scheduling algorithm.
 
-**What task did you give the agent?**
+## Human verification
 
-<!-- Describe the goal you asked the agent to accomplish -->
-
-**What did the agent do?**
-
-<!-- List the steps the agent took (files edited, commands run, etc.) -->
-
-**What did you have to verify or fix manually?**
-
-<!-- Describe anything the agent got wrong or that required human review -->
-
----
-
-## Prompt Comparison (SF11)
-
-> Compare two different prompts (or two different models) on the same task.
-
-| | Option A | Option B |
-|-|----------|----------|
-| **Model / tool used** | | |
-| **Prompt** | | |
-| **Response summary** | | |
-| **What was useful** | | |
-| **Problems noticed** | | |
-| **Decision** | | |
-
-**Which approach did you use in your final implementation and why?**
-
-<!-- Your conclusion -->
+Review the generated files, run `python main.py`, run `python -m pytest`, and launch Streamlit manually. Record any additional prompts, rejected suggestions, or manual corrections you actually made before submission.

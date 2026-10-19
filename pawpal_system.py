@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 @dataclass
@@ -49,9 +49,58 @@ class Owner:
 
 
 class Scheduler:
-    def schedule_tasks(self, tasks: list[Task]) -> list[Task]:
-        """Return tasks in priority order as a starting point for a schedule."""
-        return self.sort_by_priority(tasks)
+    def schedule_tasks(
+        self,
+        tasks: list[Task],
+        start_time: datetime | None = None,
+        available_minutes: int | None = None,
+    ) -> (
+        list[Task]
+        | tuple[list[Task], list[Task], list[str]]
+    ):
+        """Schedule tasks within a time limit, or sort them for legacy callers."""
+        if start_time is None and available_minutes is None:
+            return self.sort_by_priority(tasks)
+        if start_time is None or available_minutes is None:
+            raise ValueError("Provide both start_time and available_minutes.")
+        if available_minutes < 0:
+            raise ValueError("available_minutes cannot be negative.")
+
+        scheduled_tasks = []
+        skipped_tasks = []
+        explanations = []
+        current_time = start_time
+        remaining_minutes = available_minutes
+
+        for task in self.sort_by_priority(tasks):
+            task.scheduled_start = None
+            task.scheduled_end = None
+
+            if task.duration_minutes <= 0:
+                skipped_tasks.append(task)
+                explanations.append(
+                    f"Skipped '{task.title}': duration must be greater than zero."
+                )
+            elif task.duration_minutes > remaining_minutes:
+                skipped_tasks.append(task)
+                explanations.append(
+                    f"Skipped '{task.title}': it does not fit in the remaining "
+                    f"{remaining_minutes} minutes."
+                )
+            else:
+                task.scheduled_start = current_time
+                task.scheduled_end = current_time + timedelta(
+                    minutes=task.duration_minutes
+                )
+                current_time = task.scheduled_end
+                remaining_minutes -= task.duration_minutes
+                scheduled_tasks.append(task)
+                explanations.append(
+                    f"Scheduled '{task.title}' at {task.scheduled_start:%H:%M} "
+                    f"because it fit in the available time."
+                )
+
+        return scheduled_tasks, skipped_tasks, explanations
 
     def sort_by_priority(self, tasks: list[Task]) -> list[Task]:
         """Sort tasks from high to low priority."""
