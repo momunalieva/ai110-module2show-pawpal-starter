@@ -1,15 +1,34 @@
 classDiagram
-    %% Replace the placeholders below with your actual classes, attributes, methods, and relationships.
-    %% Keep this file updated so it matches your final implementation.
-
-    class ClassName {
-        +type attribute
-        +method() returnType
+    class Owner {
+        +name: string
+        +preferences: string
+        +addPet(pet)
+        +addTask(task)
     }
 
-    class AnotherClass {
-        +type attribute
-        +method() returnType
+    class Pet {
+        +name: string
+        +species: string
+        +careNotes: string
+        +addTask(task)
     }
 
-    ClassName --> AnotherClass : relationship
+    class Task {
+        +title: string
+        +durationMinutes: int
+        +priority: string
+        +scheduledStart: datetime
+        +scheduledEnd: datetime
+        +overlaps(otherTask)
+    }
+
+    class Scheduler {
+        +scheduleTasks(tasks)
+        +sortByPriority(tasks)
+        +detectConflicts(tasks)
+    }
+
+    Owner "1" --> "0..*" Pet : owns
+    Owner "1" --> "0..*" Task : plans
+    Pet "1" --> "0..*" Task : needs care
+    Scheduler ..> Task : orders and schedules
